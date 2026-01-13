@@ -195,7 +195,7 @@ static void rtw_tx_report_enable(struct rtw_dev *rtwdev,
 void rtw_tx_report_purge_timer(struct timer_list *t)
 {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
-	struct rtw_dev *rtwdev = timer_container_of(struct rtw_dev, t,
+	struct rtw_dev *rtwdev = timer_container_of(rtwdev, t,
 						    tx_report.purge_timer);
 #else
 	struct rtw_dev *rtwdev = from_timer(rtwdev, t, tx_report.purge_timer);
