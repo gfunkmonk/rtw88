@@ -11,6 +11,8 @@
 static const struct usb_device_id rtw_8723bu_id_table[] = {
 	{ USB_DEVICE_AND_INTERFACE_INFO(RTW_USB_VENDOR_ID_REALTEK, 0xb720, 0xff, 0xff, 0xff),
 	  .driver_info = (kernel_ulong_t)&(rtw8703b_hw_spec) }, /* 8723BU 1*1 */
+	{ USB_DEVICE_AND_INTERFACE_INFO(0x7392, 0xa611, 0xff, 0xff, 0xff),
+	  .driver_info = (kernel_ulong_t)&(rtw8703b_hw_spec) }, /* Edimax EW-7611ULB */
 	{ },
 };
 MODULE_DEVICE_TABLE(usb, rtw_8723bu_id_table);
