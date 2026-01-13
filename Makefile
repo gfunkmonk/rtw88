@@ -3,7 +3,7 @@ KVER ?= $(if $(KERNELRELEASE),$(KERNELRELEASE),$(shell uname -r))
 KSRC ?= $(if $(KERNEL_SRC),$(KERNEL_SRC),/lib/modules/$(KVER)/build)
 FWDIR := /lib/firmware/rtw88
 JOBS ?= $(shell nproc --ignore=1)
-MODLIST := rtw_8723cs rtw_8723de rtw_8723ds rtw_8723du \
+MODLIST := rtw_8723bs rtw_8723bu rtw_8723cs rtw_8723de rtw_8723ds rtw_8723du \
 	   rtw_8812au rtw_8814ae rtw_8814au rtw_8821au rtw_8821ce rtw_8821cs rtw_8821cu \
 	   rtw_8822be rtw_8822bs rtw_8822bu rtw_8822ce rtw_8822cs rtw_8822cu \
 	   rtw_8703b rtw_8723d rtw_8821a rtw_8812a rtw_8814a rtw_8821c rtw_8822b rtw_8822c \
@@ -89,6 +89,9 @@ endif
 
 obj-m		+= rtw_8723du.o
 rtw_8723du-objs	:= rtw8723du.o
+
+obj-m		+= rtw_8723bu.o
+rtw_8723bu-objs	:= rtw8723bu.o
 
 obj-m		+= rtw_8723x.o
 rtw_8723x-objs	:= rtw8723x.o
