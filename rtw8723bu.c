@@ -30,5 +30,5 @@ static struct usb_driver rtw_8723bu_driver = {
 module_usb_driver(rtw_8723bu_driver);
 
 MODULE_AUTHOR("Realtek Corporation");
-MODULE_DESCRIPTION("Realtek 802.11n wireless 8723bu driver");
+MODULE_DESCRIPTION("Realtek 802.11n wireless 8723BU driver");
 MODULE_LICENSE("Dual BSD/GPL");
