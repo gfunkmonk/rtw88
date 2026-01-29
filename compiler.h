@@ -524,7 +524,6 @@ static __always_inline void __write_once_size(volatile void *p, void *res, int s
  * indeed a pointer type by using a pointer to typeof(*p) as the type.
  * Taking a pointer to typeof(*p) again is needed in case p is void *.
  */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 8, 0)
 #define lockless_dereference(p) \
 ({ \
 	typeof(p) _________p1 = READ_ONCE(p); \
@@ -532,14 +531,6 @@ static __always_inline void __write_once_size(volatile void *p, void *res, int s
 	smp_read_barrier_depends(); /* Dependency order vs. p above. */ \
 	(_________p1); \
 })
-#else
-#define lockless_dereference(p) \
-({ \
-	typeof(p) _________p1 = READ_ONCE(p); \
-	smp_read_barrier_depends(); /* Dependency order vs. p above. */ \
-	(_________p1); \
-})
-#endif
 
 /* Ignore/forbid kprobes attach on very low level functions marked by this attribute: */
 #ifdef CONFIG_KPROBES

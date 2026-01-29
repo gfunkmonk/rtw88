@@ -661,35 +661,18 @@ out:
 	return ret;
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 6, 0)
 static int rtw_ops_ampdu_action(struct ieee80211_hw *hw,
 				struct ieee80211_vif *vif,
 				struct ieee80211_ampdu_params *params)
-#else
-static int rtw_ops_ampdu_action(struct ieee80211_hw *hw,
-				struct ieee80211_vif *vif,
-				enum ieee80211_ampdu_mlme_action action,
-				struct ieee80211_sta *sta, u16 tid, u16 *ssn,
-				u8 buf_size, bool amsdu)
-#endif
 {
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 6, 0)
 	struct ieee80211_sta *sta = params->sta;
 	u16 tid = params->tid;
 	struct ieee80211_txq *txq = sta->txq[tid];
 	struct rtw_txq *rtwtxq = (struct rtw_txq *)txq->drv_priv;
 
 	switch (params->action) {
-#else
-	switch (action) {
-#endif
 	case IEEE80211_AMPDU_TX_START:
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 5, 0)
 		return IEEE80211_AMPDU_TX_START_IMMEDIATE;
-#else
-		ieee80211_start_tx_ba_cb_irqsafe(vif, sta->addr, tid);
-		break;
-#endif
 	case IEEE80211_AMPDU_TX_STOP_CONT:
 	case IEEE80211_AMPDU_TX_STOP_FLUSH:
 	case IEEE80211_AMPDU_TX_STOP_FLUSH_CONT:
@@ -710,7 +693,6 @@ static int rtw_ops_ampdu_action(struct ieee80211_hw *hw,
 	return 0;
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
 static bool rtw_ops_can_aggregate_in_amsdu(struct ieee80211_hw *hw,
 					   struct sk_buff *head,
 					   struct sk_buff *skb)
@@ -724,7 +706,6 @@ static bool rtw_ops_can_aggregate_in_amsdu(struct ieee80211_hw *hw,
 
 	return true;
 }
-#endif
 
 static void rtw_ops_sw_scan_start(struct ieee80211_hw *hw,
 				  struct ieee80211_vif *vif,
@@ -748,18 +729,9 @@ static void rtw_ops_sw_scan_complete(struct ieee80211_hw *hw,
 	mutex_unlock(&rtwdev->mutex);
 }
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 18, 0)
 static void rtw_ops_mgd_prepare_tx(struct ieee80211_hw *hw,
 				   struct ieee80211_vif *vif,
-    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,14,0))
 				   struct ieee80211_prep_tx_info *info)
-    #else
-				   u16 duration)
-    #endif
-#else
-static void rtw_ops_mgd_prepare_tx(struct ieee80211_hw *hw,
-				   struct ieee80211_vif *vif)
-#endif
 {
 	struct rtw_dev *rtwdev = hw->priv;
 
@@ -1052,9 +1024,7 @@ const struct ieee80211_ops rtw_ops = {
 	.set_tim		= rtw_ops_set_tim,
 	.set_key		= rtw_ops_set_key,
 	.ampdu_action		= rtw_ops_ampdu_action,
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 20, 0)
 	.can_aggregate_in_amsdu	= rtw_ops_can_aggregate_in_amsdu,
-#endif
 	.sw_scan_start		= rtw_ops_sw_scan_start,
 	.sw_scan_complete	= rtw_ops_sw_scan_complete,
 	.mgd_prepare_tx		= rtw_ops_mgd_prepare_tx,

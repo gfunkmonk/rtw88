@@ -2245,14 +2245,8 @@ int rtw_core_init(struct rtw_dev *rtwdev)
 	INIT_LIST_HEAD(&rtwdev->rsvd_page_list);
 	INIT_LIST_HEAD(&rtwdev->txqs);
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 14, 0)
-	setup_timer(&rtwdev->tx_report.purge_timer,
-		    (void *)(long unsigned int)rtw_tx_report_purge_timer,
-		    (long unsigned int)rtwdev);
-#else
 	timer_setup(&rtwdev->tx_report.purge_timer,
 		    rtw_tx_report_purge_timer, 0);
-#endif
 	rtwdev->tx_wq = alloc_workqueue("rtw_tx_wq", WQ_UNBOUND | WQ_HIGHPRI, 0);
 	if (!rtwdev->tx_wq) {
 		rtw_warn(rtwdev, "alloc_workqueue rtw_tx_wq failed\n");
